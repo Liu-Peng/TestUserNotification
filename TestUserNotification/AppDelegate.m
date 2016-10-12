@@ -266,6 +266,10 @@
     content.categoryIdentifier = @"localNotificationIdentifier";
 
     UNNotificationAction * action = [UNNotificationAction actionWithIdentifier:@"localNotificationActionIdentifier" title:@"我看到了" options:UNNotificationActionOptionNone];
+//    UNNotificationActionOptionAuthenticationRequired  执行前需要解锁确认
+//    UNNotificationActionOptionDestructive  显示高亮（红色）
+//    UNNotificationActionOptionForeground  将会引起程序启动到前台
+
     UNNotificationAction * action1 = [UNNotificationAction actionWithIdentifier:@"localNotificationActionIdentifier1" title:@"我不想看" options:UNNotificationActionOptionDestructive];
     UNTextInputNotificationAction * textAction = [UNTextInputNotificationAction actionWithIdentifier:@"localNotificationTextActionIdentifier" title:@"说点啥" options:(UNNotificationActionOptionDestructive|UNNotificationActionOptionForeground) textInputButtonTitle:@"说完了" textInputPlaceholder:@"随便说点啥"];
 
