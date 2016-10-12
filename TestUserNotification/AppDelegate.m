@@ -98,12 +98,37 @@
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+    completionHandler();
     NSLog(@"didReceiveNotificationResponse = %@",response);
+    if([response.actionIdentifier isEqualToString:@"localNotificationActionIdentifier"]) {
+        
+        UIAlertView * aler = [[UIAlertView alloc] initWithTitle:@"提示" message:@"我看到了" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"OTHER", nil];
+        [aler show];
+    }else if ([response.actionIdentifier isEqualToString:@"localNotificationActionIdentifier1"]) {
+        
+//        UIAlertView * aler = [[UIAlertView alloc] initWithTitle:@"提示" message:@"我不想看" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"OTHER", nil];
+//        [aler show];
+        
+        [self performSelector:NSSelectorFromString(@"showAlert:") withObject:@"我不想看" afterDelay:0];
+        
+    }else if ([response.actionIdentifier isEqualToString:@"localNotificationTextActionIdentifier"]) {
+        UNTextInputNotificationResponse * textResponse = (UNTextInputNotificationResponse *)response;
+        NSString * str = [NSString stringWithFormat:@"说了:%@",textResponse.userText];
+        UIAlertView * aler = [[UIAlertView alloc] initWithTitle:@"说点啥" message:str delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"OTHER", nil];
+        [aler show];
+    }
+    
+    
+    
 }
 
 
 #endif
-
+-(void)showAlert:(NSString *)str {
+    UIAlertView * aler = [[UIAlertView alloc] initWithTitle:@"提示" message:str delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"OTHER", nil];
+    [aler show];
+    
+}
 #pragma mark ---- iOS10 之前的推送
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
@@ -122,7 +147,7 @@
         message = [alert objectForKey:@"body"];
     }
     
-    UIAlertView * aler = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"cancle" otherButtonTitles:@"other", nil];
+    UIAlertView * aler = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"OTHER", nil];
     [aler show];
 }
 
@@ -143,7 +168,7 @@
         message = [alert objectForKey:@"body"];
     }
     
-    UIAlertView * aler = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"cancle10" otherButtonTitles:@"other10", nil];
+    UIAlertView * aler = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"CANCLE10" otherButtonTitles:@"other10", nil];
     [aler show];
     
 }
